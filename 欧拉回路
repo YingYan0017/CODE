@@ -1,0 +1,50 @@
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+using namespace std;
+const int MAXN = 1000+5;
+int fa[MAXN];
+//int cnt;
+int degree[MAXN];
+void init(){
+     for (int i = 1 ; i <= MAXN ; i++) fa[i] = i;
+}
+int fi(int x){
+    return (x == fa[x])?x : fa[x]=fi(fa[x]);
+}
+void union_(int x , int y){
+      int tx = fi(x);
+      int ty = fi(y);
+      if(tx != ty) fa[tx]=ty;
+}
+int main(){
+
+    int n , m ;
+   while(cin>>n&&n ){      
+ cin >> m ;
+   memset(degree,0,sizeof(degree));
+   memset(fa,0,sizeof(fa));
+   init();
+   int cnt = 0;
+   int a , b ;
+   for(int i = 1 ;i <= m ; ++i){
+   cin >> a >> b ;
+   degree[a]++;
+   degree[b]++;
+   union_(a , b);}
+   for(int i = 1 ; i <= n ; ++i){
+            if(degree[i] % 2 == 1){
+                flag = 0;
+                break;
+            }
+        }
+        for(int i = 1 ; i <= n ;++i){
+            if(fi(i) != fi(1)){
+                flag = 0;
+                break;
+            }
+         }
+        cout << flag << endl;
+    }
+return 0;
+}
