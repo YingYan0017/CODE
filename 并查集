@@ -1,0 +1,70 @@
+
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<cmath>
+using namespace std;
+const int MAXN = 100000+10;
+int fa[MAXN];
+int vis[MAXN];
+int val[MAXN];
+int flag = 1;
+int fi(int x){
+    return (fa[x]==x)?x:fa[x]=fi(fa[x]);
+}
+void union_(int x , int y){
+    int tx = fi(x);
+    int ty = fi(y);
+    if(tx == ty)  flag = 0;
+    else fa[tx]=ty;
+}
+void init(){
+     for(int i = 1 ; i <= MAXN ; i++)
+        fa[i]=i;
+}
+int main(){
+    int m , n ,minn ,maxn ;
+    int cas = 0;
+    while(scanf("%d %d",&m ,&n)&&n!=-1){
+          memset(val , 0, sizeof(val));
+          memset(vis, 0 ,sizeof(vis));
+          if(m ==0 && n==0){
+            printf("Yes\n",++cas);
+            continue;
+          }
+          int ans = 0;
+          flag = 1;
+          init();
+          minn = min( m , n );
+          maxn = max( m , n );
+          union_( m , n);
+          val[m]=1;
+          val[n]=1;
+          int a , b ;
+          while(scanf("%d %d",&a,&b)!=EOF){
+                if(a == 0 && b == 0) break;
+                union_( a , b );
+                val[a]=1;
+                val[b]=1;
+                minn = min(minn , min( a , b ));
+                maxn = max(maxn , max( a , b ));
+          }
+          for(int i = minn ; i <= maxn ; i++){
+             if(val[i]==1)
+               vis[fi(i)]=1;}
+          /*for(int i = minn ; i<= maxn ; i++)
+            printf(" %d : %d\n",i , fi(i));*/
+          for(int i = minn ; i <= maxn ; i++){
+              if(vis[i]==1)
+                ans++;
+              if(ans >1){
+                flag = 0;
+                break;
+              }
+          }
+         // printf("%d\n",ans);
+          if(flag) printf("Yes\n",++cas);
+          else printf("No\n",++cas);
+    }
+return 0;
+}
